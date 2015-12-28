@@ -7,6 +7,7 @@ import io.dropwizard.setup.Environment;
 import com.example.helloworld.api.WordCategory;
 import com.example.helloworld.health.TemplateHealthCheck;
 import com.example.helloworld.resources.HelloWorldResource;
+import com.example.helloworld.resources.SentencesResource;
 import com.example.helloworld.resources.WordsResource;
 
 public class HelloWorldApplication extends Application<HelloWorldConfiguration> {
@@ -30,13 +31,15 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
 			Environment environment) {
 		final HelloWorldResource resource = new HelloWorldResource(
 				configuration.getTemplate(), configuration.getDefaultName());
-		final WordsResource resourceDemo = new WordsResource();
+		final WordsResource wordsResource = new WordsResource();
+		final SentencesResource sentencesResource = new SentencesResource();
 		
 		final TemplateHealthCheck healthCheck = new TemplateHealthCheck(
 				configuration.getTemplate());
 		environment.healthChecks().register("template", healthCheck);
 		environment.jersey().register(resource);
-		environment.jersey().register(resourceDemo);
+		environment.jersey().register(wordsResource);
+		environment.jersey().register(sentencesResource);
 	}
 
 }
